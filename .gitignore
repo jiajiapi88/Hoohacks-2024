@@ -152,9 +152,9 @@ constants.py
 .DS_Store
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+/web-frontend/node_modules
+/web-frontend/.pnp
+/web-frontend/.pnp.js
 
 # testing
 /coverage
