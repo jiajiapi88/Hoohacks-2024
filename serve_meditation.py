@@ -1,5 +1,7 @@
 #!/usr/bin/env python
+import json
 from fastapi import FastAPI
+from fastapi import UploadFile, File, HTTPException
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain_community.vectorstores import FAISS
@@ -26,9 +28,37 @@ app = FastAPI(
     description="API server for generating customized meditation scripts",
 )
 
+
+class VectorStore:
+    def __init__(self):
+        self.vectorstore = FAISS(dimensions=OpenAIEmbeddings().model_embedding_size)
+        self.embeddings = OpenAIEmbeddings()
+
+    def add(self, documents: List[str]):
+        # Embed the documents
+        embeddings = self.embeddings.embed_texts(documents)
+        # Add the embeddings to the vector store
+        for embedding in embeddings:
+            self.vectorstore.add([embedding])
+
+    def retrieve(self, query: str, top_k: int = 10):
+        # Embed the query
+        query_embedding = self.embeddings.embed_texts([query])[0]
+        # Retrieve top_k closest embeddings from the vector store
+        distances, indices = self.vectorstore.search([query_embedding], k=top_k)
+        return indices[0]  # Assuming you want the indices of the documents
+
+vector_store = VectorStore()
+
 # Load onboarding text
 with open("onboarding.txt", "r") as file:
     onboarding = file.read()
+
+
+def add_documents_to_vectorstore(documents: List[str]):
+    # This function takes a list of strings (documents)
+    # and adds their embeddings to the vector store.
+    vector_store.add(documents)
 
 # Setup vectorstore and retriever
 vectorstore = FAISS.from_texts(
@@ -62,14 +92,46 @@ add_routes(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"],
 )
 
+@app.post("/add_documents")
+async def add_documents(documents: List[str]):
+    try:
+        add_documents_to_vectorstore(documents)
+        return {"message": "Documents added successfully."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to add documents: {e}")
+    
 
+@app.post("/add_documents")
+async def add_documents(file: UploadFile = File(...)):
+    if file.content_type != 'application/json':
+        raise HTTPException(status_code=400, detail="File must be JSON.")
+    try:
+        contents = await file.read()
+        documents = json.loads(contents)
+        # Assuming documents is a list of texts
+        add_documents_to_vectorstore(documents)
+        return {"message": "Documents added successfully."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to add documents: {e}")
+    
+
+@app.get("/retrieve_meditation")
+async def retrieve_meditation(query: str):
+    try:
+        # Here, the query is passed to the retriever; adjust according to your actual logic
+        retrieved_context = retriever.retrieve(query, top_k=1)[0]  # Assuming you want the top result
+        # Pass the retrieved context to your existing chain or a modified version
+        meditation_script = retrieval_chain.invoke({"context": retrieved_context, "question": query})
+        return meditation_script
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Retrieval failed: {e}")
 
 
 # @app.get("/{wish_id}")
