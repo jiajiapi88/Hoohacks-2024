@@ -25,4 +25,5 @@ pip install intel_extension_for_pytorch
 
 playsound
 sounddevice
-langcorn
+
+predictionguard
