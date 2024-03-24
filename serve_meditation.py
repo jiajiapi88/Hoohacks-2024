@@ -10,7 +10,10 @@ from langserve import add_routes
 import constants
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from langchain_community.embeddings import QuantizedBiEncoderEmbeddings
+
 #from your_application import TTS  # Assuming you have a TTS module
+
 
 os.environ['OPENAI_API_KEY'] = constants.OPENAI_API_KEY
 os.environ['LANGCHAIN_API_KEY'] = constants.LANGCHAIN_API_KEY
@@ -33,6 +36,8 @@ vectorstore = FAISS.from_texts(
 )
 retriever = vectorstore.as_retriever()
 
+#QuantizedBiEncoderEmbeddings()
+
 # Setup prompt and model
 template = """Produce a meditation script within 100 words to help the user achieve their goal using the following context:
 {context}
@@ -54,6 +59,8 @@ add_routes(
     retrieval_chain,
     path="/generate_meditation",
 )
+
+
 
 # app.add_middleware(
 #     CORSMiddleware,
