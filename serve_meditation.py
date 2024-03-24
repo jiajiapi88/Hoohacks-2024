@@ -60,16 +60,28 @@ add_routes(
     path="/generate_meditation",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
 
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-#     expose_headers=["*"],
-# )
+
+
+# @app.get("/{wish_id}")
+# async def get_meditation(wish_id: str):
+#     logger.info(f"Retrieving initial if {wish_id}")
+#     existing_wish = 
+#     customized_meditation = retrieval_chain.invoke(f"Produce a customized meditation script for wish_id={wish_id}")
+#     print(customized_meditation)
+#     # tts = TTS()
+#     # tts.to_audio(customized_meditation, "meditation.mp3")
+#     return customized_meditation
+
 # Add a Text-to-Speech endpoint if needed
 # For this, you would need to wrap your TTS functionality into a LangChain Runnable
 
