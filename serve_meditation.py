@@ -120,7 +120,19 @@ async def add_documents(file: UploadFile = File(...)):
         return {"message": "Documents added successfully."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to add documents: {e}")
-    
+
+from propelauth_fastapi import init_auth
+
+API_KEY_AUTH = "ce551a35849b7391b250992e71e85bd3ddd5650fbc851115f8e4f609a2049fc61fa9d21be380db13eaaa50018f17b865"
+AUTH_URL = "https://677600144.propelauthtest.com"
+ISSUER = "https://677600144.propelauthtest.com"
+
+auth = init_auth(AUTH_URL, API_KEY_AUTH)
+
+@app.get("/login")
+async def login():
+    return await auth.login()
+
 
 @app.get("/retrieve_meditation")
 async def retrieve_meditation(query: str):
