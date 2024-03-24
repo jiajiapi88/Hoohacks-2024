@@ -1,4 +1,4 @@
 Name: Alex
-Wish Type: Career
-Specific Wish: Make the pretrain model work
-Additional information: Intel's model is not working 
+Wish Type: Health
+Specific Wish: I want to lose weight
+Additional information: My current weight is 200 lb and I love chocolate
