@@ -6,9 +6,9 @@ from langchain.retrievers import ContextualCompressionRetriever
 from pymongo import MongoClient
 import urllib
 
-llm=ChatOpenAI(model="gpt-4",temperature=0,openai_api_key='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')
+llm=ChatOpenAI(model="gpt-4",temperature=0,openai_api_key='YOUR KEY')
 compressor=LLMChainExtractor.from_llm(llm)
-embeddings = OpenAIEmbeddings(openai_api_key='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')
+embeddings = OpenAIEmbeddings(openai_api_key='YOUR KEY')
 
 client=MongoClient()
 username="jiajiapi88" 

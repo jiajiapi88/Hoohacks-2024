@@ -14,7 +14,7 @@ splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=0,separato
 docs=splitter.split_documents(doc)
 print(docs)
 
-embeddings = OpenAIEmbeddings(openai_api_key='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')
+embeddings = OpenAIEmbeddings(openai_api_key='YOUR KEY')
 
 username="jiajiapi88" 
 pwd="hOQXXUNiPQ6ffape"
