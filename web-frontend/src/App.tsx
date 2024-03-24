@@ -1,40 +1,30 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import AboutUs from './pages/AboutUs';
-import Demo from './pages/Demo';
-import myLogo from './assets/logo.svg';
+import React from "react";
+import { ChakraProvider, Box, theme } from "@chakra-ui/react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Header from "./components/header"; // Ensure this path is correct
+import "./App.css";
+// Import your components here
+import Home from "./pages/Home";
+import ChatBot from "./pages/ChatBot";
+import AboutUs from "./pages/AboutUs";
+import MeditationPage from "./pages/MeditationPage"; // Adjust the import path as necessary
 
-import './App.css';
-
-const App = () => {
-  return (
-    <Router>
-      <div>
-        <div>
-        <img src={myLogo} alt="My Logo" width="350px" height="auto" />
-        </div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about-us">About Us</Link>
-            </li>
-            <li>
-              <Link to="/demo">Demo</Link>
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/demo" element={<Demo />} />
-        </Routes>
-      </div>
-    </Router>
-  );
+function App() {
+	return (
+		<ChakraProvider theme={theme}>
+			<Router>
+				<Box minH="100vh" minW="100vw">
+					<Header /> {/* This will make the header appear on every page */}
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/meditationroom" element={<ChatBot />} />
+						<Route path="/about-us" element={<AboutUs />} />
+						<Route path="/meditation" element={<MeditationPage />} />
+					</Routes>
+				</Box>
+			</Router>
+		</ChakraProvider>
+	);
 }
 
 export default App;
