@@ -5,6 +5,7 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 import constants
 import os
+import openai
 
 from Speech.TextToAudio import TTS
 
