@@ -22,6 +22,7 @@ import Avatar from "../assets/avatar.png";
 import meditationRoom from "../assets/meditation-room.png";
 import OPTIONS from "../components/wishOptions";
 import { MdOutlineFileUpload } from "react-icons/md"; // Assuming you're using react-icons
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 interface Message {
 	id: string;
@@ -52,6 +53,8 @@ const ChatBot: React.FC = () => {
 		specificWish: "",
 		additionalInfo: "",
 	});
+	const navigate = useNavigate(); // Use useNavigate to get the navigate function
+
 	const [messages, setMessages] = useState<Message[]>([]);
 
 	const endOfMessagesRef = useRef<null | HTMLDivElement>(null);
@@ -70,7 +73,7 @@ const ChatBot: React.FC = () => {
 		endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages]);
 
-	const sendMessage = (message: string, sender: "user" | "bot") => {
+	const sendMessage = async (message: string, sender: "user" | "bot") => {
 		// Use a combination of timestamp and a random value for a unique ID
 		console.log("message", message, "step", step, "sender", sender);
 		const newMessage = {
@@ -83,6 +86,25 @@ const ChatBot: React.FC = () => {
 
 		if (sender === "user") {
 			handleUserResponse(message);
+			try {
+				const response = await fetch("http://localhost:8000/joke/", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ text: message, sender }),
+				});
+				console.log("response", response);
+				console.log("message", message);
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				const responseData = await response.json();
+				// Send the bot's response message
+				sendMessage(responseData.text, "bot");
+			} catch (error) {
+				console.error("There was a problem with your fetch operation:", error);
+			}
 		}
 	};
 
@@ -119,6 +141,7 @@ const ChatBot: React.FC = () => {
 		};
 		console.log("Data to send:", finalData);
 		setShowMeditationButton(true);
+
 		// Integration with the backend API, using finalData
 	};
 
@@ -226,9 +249,7 @@ const ChatBot: React.FC = () => {
 								color="#FFF"
 								variant={"outline"}
 								size="lg"
-								onClick={() => {
-									// Logic to start meditation goes here
-								}}
+								onClick={() => navigate("/meditation")}
 								_hover={{ bg: "#F6AD55", color: "#FFF" }}
 								borderWidth={2}
 							>

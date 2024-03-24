@@ -7,6 +7,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import ChatBot from "./pages/ChatBot";
 import AboutUs from "./pages/AboutUs";
+import MeditationPage from "./pages/MeditationPage"; // Adjust the import path as necessary
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 						<Route path="/" element={<Home />} />
 						<Route path="/meditationroom" element={<ChatBot />} />
 						<Route path="/about-us" element={<AboutUs />} />
+						<Route path="/meditation" element={<MeditationPage />} />
 					</Routes>
 				</Box>
 			</Router>

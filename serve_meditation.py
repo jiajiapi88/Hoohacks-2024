@@ -69,13 +69,9 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
-
-
-
 # @app.get("/{wish_id}")
 # async def get_meditation(wish_id: str):
 #     logger.info(f"Retrieving initial if {wish_id}")
-#     existing_wish = 
 #     customized_meditation = retrieval_chain.invoke(f"Produce a customized meditation script for wish_id={wish_id}")
 #     print(customized_meditation)
 #     # tts = TTS()

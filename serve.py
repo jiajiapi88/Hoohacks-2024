@@ -56,6 +56,7 @@ add_routes(
     path="/joke",
 )
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -64,6 +65,16 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
+
+class JokeRequest(BaseModel):
+    text: str
+    sender: str
+
+@app.post("/joke/")
+async def get_joke(request: JokeRequest):
+    # Your logic to process the request and generate a response
+    response_text = "This is a joke response."
+    return {"text": response_text}
 
 @app.get("/")
 def read_root():

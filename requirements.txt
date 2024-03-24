@@ -4,7 +4,7 @@ langchain_openai
 langchain_community
 pinecone-client
 openai~=1.13.3
-chromadb
+# chromadb
 gTTS~=2.5.1
 ibm_watson
 BeautifulSoup4
@@ -21,8 +21,8 @@ anthropic
 
 # intel 
 optimum[neural-compressor]
-pip install intel_extension_for_pytorch
+# pip install intel_extension_for_pytorch
 
 playsound
 sounddevice
-langcorn
+# langcorn
