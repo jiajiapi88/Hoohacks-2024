@@ -1,0 +1,4 @@
+Name: Alex
+Wish Type: Career
+Specific Wish: Make the pretrain model work
+Additional information: Intel's model is not working 
