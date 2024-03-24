@@ -1,0 +1,28 @@
+langchain~=0.1.11
+langchain_core
+langchain_openai
+langchain_community
+pinecone-client
+openai~=1.13.3
+chromadb
+gTTS~=2.5.1
+ibm_watson
+BeautifulSoup4
+
+faiss-cpu
+
+uvicorn~=0.28.0
+fastapi~=0.110.0
+langserve~=0.0.47
+sse_starlette
+unstructured
+langchainhub
+anthropic
+
+# intel 
+optimum[neural-compressor]
+pip install intel_extension_for_pytorch
+
+playsound
+sounddevice
+langcorn
