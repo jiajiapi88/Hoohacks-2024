@@ -22,3 +22,6 @@ anthropic
 # intel 
 optimum[neural-compressor]
 pip install intel_extension_for_pytorch
+
+playsound
+sounddevice
